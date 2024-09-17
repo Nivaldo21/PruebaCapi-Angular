@@ -18,7 +18,7 @@ export interface ContactDetails {
   notes?: string;
   website?: string;
   company?: string;
-  adresses?: Adress[];
+  addresses?: Adress[];
   emails?: Email[];
   phones?: Phone[];
 }

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ContactService } from '../../services/contact.service';
 import { FormsModule } from '@angular/forms';
 import { catchError, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ContactListComponent {
   toContacts:number = 0;
   formContacts:number = 0;
 
-  constructor(private contactService: ContactService){}
+  constructor(private contactService: ContactService, private router: Router){}
 
   ngOnInit(): void {
     this.loadContacts();
@@ -34,16 +35,21 @@ export class ContactListComponent {
       .pipe(
         catchError((error: any) => {
             this.contacts = [];
-            console.info('Bad request error:', error.status); // Log the error for debugging
+            this.totalPages = 0;
+            this.totalContacts = 0;
+            this.formContacts = 0;
+            this.toContacts = 0;
             return of(null);
         })
       )
       .subscribe((response:any) => {
-        this.contacts = response.data;
-        this.totalPages = response.last_page;
-        this.totalContacts = response.total;
-        this.formContacts = response.from;
-        this.toContacts = response.to;
+        if (response) {
+          this.contacts = response.data;
+          this.totalPages = response.last_page;
+          this.totalContacts = response.total;
+          this.formContacts = response.from;
+          this.toContacts = response.to;
+        }
       });
   }
 
@@ -64,6 +70,10 @@ export class ContactListComponent {
       this.currentPage++;
       this.loadContacts();
     }
+  }
+
+  viewDetails(contactId: number): void {
+    this.router.navigate(['/contacts', contactId]);
   }
 
 }

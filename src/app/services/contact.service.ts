@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import Contact from '../models/conact.model';
+import Contact, { ContactDetails } from '../models/conact.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +22,9 @@ export class ContactService {
     }
     const api = searchQuery ? `${this.apiUrl}/search` : this.apiUrl;
     return this.http.get<Contact>(api, { params });
+  }
+
+  getContactDetails(contactId: number): Observable<ContactDetails>{
+    return this.http.get<ContactDetails>(`${this.apiUrl}/${contactId}`);
   }
 }
