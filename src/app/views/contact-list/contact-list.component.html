@@ -1,0 +1,53 @@
+<div class="container mx-auto mt-10">
+  <h1 class="text-5xl font-bold mb-6 text-blue-700">Contact List</h1>
+  <div class="relative my-5">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+          </svg>
+      </div>
+      <input [(ngModel)]="searchQuery" (ngModelChange)="search()"  type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Name, adress, " />
+  </div>
+  <div class="flex justify-between text-blue-500 items-center my-2">
+    <span>Show {{contacts.length}} of {{totalContacts}} of records </span>
+    <span>Form record {{formContacts}} to {{toContacts}} </span>
+    <div class="flex gap-3 items-center">
+      <button (click)="previosPage()" class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">
+        Previous
+      </button>
+      <span> Page {{currentPage}} of {{totalPages}} </span>
+      <button (click)="nextPage()" class="flex items-center justify-center px-3 h-8 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">
+        Next
+      </button>
+    </div>
+  </div>
+  <hr>
+  <table class="min-w-full bg-white">
+    <tbody>
+      @for (contact of contacts; track contact.id) {
+        <tr class="hover:bg-gray-100">
+          <td class="py-2 px-4 border-b ">
+            <div class="flex flex-col">
+              <p class="text-xl font-semibold">{{ contact.name }} </p>
+              <p class="text-sm text-gray-400">{{ contact.notes }}</p>
+            </div>
+          </td>
+          <td class="py-2 px-4 border-b">
+              <p>Birthay: {{ contact.birthday | date }}</p>
+              <p>Company: {{ contact.company }} </p>
+          </td>
+          <td class="py-2 px-4 border-b">
+            <a class="hover:underline hover:text-blue-600" [href]="contact.website" target="_blank">{{contact.website}}</a>
+          </td>
+        </tr>
+      } @empty {
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+          <div class="mx-auto max-w-screen-sm text-center">
+              <h1 class="mb-2 text-4xl font-extrabold text-yellow-600 ">Not found results</h1>
+              <p class="text-xl text-gray-900">Try to find something else.</p>
+          </div>
+        </div>
+      }
+    </tbody>
+  </table>
+</div>
