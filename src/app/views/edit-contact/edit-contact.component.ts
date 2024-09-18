@@ -34,6 +34,7 @@ export class EditContactComponent {
     // Inicializar el formulario con los campos vacíos
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
+      notes: [''],
       birthday: ['', Validators.required],
       company: [''],
       website: [''],
@@ -49,6 +50,7 @@ export class EditContactComponent {
       // Llenar el formulario con los datos del contacto
       this.contactForm.patchValue({
         name: contact.name,
+        notes: contact.notes,
         birthday: contact.birthday,
         company: contact.company,
         website: contact.website,
