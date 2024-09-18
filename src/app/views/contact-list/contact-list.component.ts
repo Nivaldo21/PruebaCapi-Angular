@@ -86,4 +86,8 @@ export class ContactListComponent {
     });
   }
 
+  update(contactId: number): void {
+    this.router.navigate(['/contacts/update', contactId]);
+  }
+
 }
