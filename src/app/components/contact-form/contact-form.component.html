@@ -1,69 +1,133 @@
-<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+ <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
   <div class="grid grid-cols-2 gap-8 ">
     <div>
-      <label for="name">Name</label>
-      <input type="text" formControlName="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John" required />
+      <label for="name">Name  <span class="text-red-500">*</span></label>
+      <input
+        type="text"
+        formControlName="name"
+        id="name"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="John"
+        required
+      />
+      @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
+        <div class="text-red-500 text-sm">
+          Name is required.
+        </div>
+      }
     </div>
+
     <div>
       <label for="notes">Notes</label>
-      <input id="notes" formControlName="notes" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-    </div>
-    <div>
-      <label for="birthday">Birthday</label>
-      <input id="birthday" formControlName="birthday" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-    </div>
-    <div>
-      <label for="company" class="block mb-2  text-sm font-medium">Company</label>
-      <input id="company" formControlName="company" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-    </div>
-    <div>
-      <label for="website" class="block mb-2  text-sm font-medium">Website</label>
-      <input id="website" formControlName="website" type="url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+      <input
+        id="notes"
+        formControlName="notes"
+        type="text"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      />
     </div>
 
-    <!-- Phones -->
+    <div>
+      <label for="birthday">Birthday <span class="text-red-500">*</span></label>
+      <input
+        id="birthday"
+        formControlName="birthday"
+        type="date"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      />
+      @if (contactForm.get('birthday')?.invalid && contactForm.get('birthday')?.touched) {
+        <div class="text-red-500 text-sm">
+          Birthday is required.
+        </div>
+      }
+    </div>
+
+    <div>
+      <label for="company" class="block mb-2 text-sm font-medium">Company</label>
+      <input
+        id="company"
+        formControlName="company"
+        type="text"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      />
+    </div>
+
+    <div>
+      <label for="website" class="block mb-2 text-sm font-medium">Website</label>
+      <input
+        id="website"
+        formControlName="website"
+        type="url"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      />
+    </div>
+
     <div formArrayName="phones">
       <div class="flex justify-between items-center">
-        <label class="block text-sm font-medium">Phones:</label>
+        <label class="block text-sm font-medium">Phones: <span class="text-red-500">* At least one</span></label>
         <button type="button" class="bg-blue-400 text-white rounded-full px-6 py-1" (click)="addPhone()">Add Phone</button>
       </div>
-      <div *ngFor="let number of phones.controls; let i = index" [formGroupName]="i" class="space-x-6">
-        <input class="border p-1" formControlName="number" placeholder="Phone number" />
-        <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="phones.removeAt(i)">Remove</button>
-      </div>
+      @for (number of phones.controls; track $index) {
+        <div [formGroupName]="$index" class="space-x-6">
+          <span class="text-blue-300">Number {{$index+1}}</span>
+          <input class="border p-1" formControlName="number" placeholder="Phone number" />
+          <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="phones.removeAt($index)">Remove</button>
+        </div>
+        @if (number.invalid && number.touched) {
+          <div class="text-red-500 text-sm">
+           Complete this information
+          </div>
+        }
+      }
     </div>
 
-    <!-- Emails -->
     <div formArrayName="emails">
       <div class="flex justify-between items-center">
-        <label class="block text-sm font-medium">Emails:</label>
+        <label class="block text-sm font-medium">Emails: <span class="text-red-500">* At least one</span></label>
         <button type="button" class="bg-blue-400 text-white rounded-full px-6 py-1" (click)="addEmail()">Add Email</button>
       </div>
-      <div *ngFor="let email of emails.controls; let i = index" [formGroupName]="i" class="space-x-6">
-        <input class="border p-1" formControlName="email" placeholder="Email" />
-        <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="emails.removeAt(i)">Remove</button>
-      </div>
+      @for (email of emails.controls; track $index) {
+        <div [formGroupName]="$index" class="space-x-6">
+          <span class="text-blue-300">Email {{$index+1}}</span>
+          <input class="border p-1" formControlName="email" placeholder="Email" />
+          <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="emails.removeAt($index)">Remove</button>
+        </div>
+        @if (email.invalid && email.touched) {
+          <div class="text-red-500 text-sm">
+            Complete this information
+          </div>
+        }
+      }
     </div>
 
-    <!-- Addresses -->
     <div formArrayName="addresses">
       <div class="flex justify-between items-center">
-        <label class="block text-sm font-medium">Address:</label>
+        <label class="block text-sm font-medium">Address:  <span class="text-red-500">* At least one</span></label>
         <button type="button" class="bg-blue-400 text-white rounded-full px-6 py-1" (click)="addAddress()">Add Address</button>
       </div>
-      <div *ngFor="let address of addresses.controls; let i = index" [formGroupName]="i" class="space-x-6">
-        <input class="border p-1" formControlName="street" placeholder="street" />
-        <input class="border p-1" formControlName="city" placeholder="city" />
-        <input class="border p-1" formControlName="state" placeholder="state" />
-        <input class="border p-1" formControlName="zip" placeholder="zip" />
-        <input class="border p-1" formControlName="country" placeholder="country" />
-        <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="addresses.removeAt(i)">Remove</button>
-        <hr>
-      </div>
+      @for (address of addresses.controls; track $index) {
+        <span class="text-blue-300">Address {{$index+1}}</span>
+        <div [formGroupName]="$index" class="space-x-6">
+          <input class="border p-1" formControlName="street" placeholder="street" />
+          <input class="border p-1" formControlName="city" placeholder="city" />
+          <input class="border p-1" formControlName="state" placeholder="state" />
+          <input class="border p-1" formControlName="zip" placeholder="zip" />
+          <input class="border p-1" formControlName="country" placeholder="country" />
+          <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="addresses.removeAt($index)">Remove</button>
+          <hr>
+        </div>
+        @if (address.invalid && address.touched) {
+          <div class="text-red-500 text-sm">
+            Complete this information
+          </div>
+        }
+      }
     </div>
-
   </div>
+
   <div class="flex justify-center mt-10">
-    <button type="submit" class="bg-blue-700 text-white px-8 rounded-full py-2 disabled:bg-slate-300" [disabled]="!contactForm.valid">Submit Form</button>
+    <button type="submit" class="bg-blue-700 text-white px-8 rounded-full py-2 disabled:bg-slate-300" [disabled]="!contactForm.valid || phones.length < 1 || addresses.length < 1 || emails.length < 1">
+      Submit Form
+    </button>
   </div>
 </form>
