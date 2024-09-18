@@ -5,12 +5,13 @@ import { ContactService } from '../../services/contact.service';
 import { FormsModule } from '@angular/forms';
 import { catchError, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ItemComponent } from '../../components/item/item.component';
 
 
 @Component({
   selector: 'app-contact-list',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,ItemComponent],
   templateUrl: './contact-list.component.html',
   styleUrl: './contact-list.component.css'
 })

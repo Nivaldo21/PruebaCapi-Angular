@@ -111,4 +111,8 @@ export class EditContactComponent {
       country: ['', Validators.required]
     }));
   }
+
+  return():void{
+    this.router.navigate(['/contacts']);
+  }
 }
