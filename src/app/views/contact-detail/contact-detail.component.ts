@@ -35,4 +35,8 @@ export class ContactDetailComponent {
   return():void {
     this.router.navigate(['/contacts']);
   }
+
+  edit():void{
+    this.router.navigate(['/contacts/update',this.contactId]);
+  }
 }
