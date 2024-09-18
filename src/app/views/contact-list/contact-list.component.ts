@@ -100,9 +100,11 @@ export class ContactListComponent {
   }
 
   delete(contactId:number):void{
-    this.contactService.deleteContact(contactId).subscribe(()=>{
-      this.contacts = this.contacts.filter(contact => contact.id !== contactId);
-    });
+    if (window.confirm("Do you want to delete this contact?")) {
+      this.contactService.deleteContact(contactId).subscribe(()=>{
+        this.contacts = this.contacts.filter(contact => contact.id !== contactId);
+      });
+    }
   }
 
   update(contactId: number): void {
