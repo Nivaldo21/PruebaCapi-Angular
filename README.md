@@ -2,9 +2,18 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.1.
 
-## Development server
+## Instructions for install and run project
+- You need install project dependencies
+```bash
+  npm install
+```
+- Subsequently run the local server to be able to navigate in the application.
+```bash
+  ng serve
+```
+Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Be careful with environment variables if your front end or backend application is on other ports than the common ones.
 
 ## Code scaffolding
 
