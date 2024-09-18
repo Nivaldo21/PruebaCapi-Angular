@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ContactService } from '../../services/contact.service';
 import { FormsModule } from '@angular/forms';
 import { catchError, of } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -24,10 +24,14 @@ export class ContactListComponent {
   toContacts:number = 0;
   formContacts:number = 0;
 
-  constructor(private contactService: ContactService, private router: Router){}
+  constructor(private contactService: ContactService, private router: Router,  private route: ActivatedRoute){}
 
   ngOnInit(): void {
-    this.loadContacts();
+    this.route.queryParams.subscribe(params => {
+      this.searchQuery = params['query'] || '';
+      this.currentPage = +params['page'] || 1;
+      this.loadContacts();
+    });
   }
 
   loadContacts(): void {
@@ -55,12 +59,22 @@ export class ContactListComponent {
 
   search(): void {
     this.currentPage = 1; // Reiniciar a la primera página cuando cambia la búsqueda
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { query: this.searchQuery  || null, page: this.currentPage > 1 ? this.currentPage : null},
+      queryParamsHandling: 'merge'
+    });
     this.loadContacts();
   }
 
   previosPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { query: this.searchQuery  || null,page: this.currentPage > 1 ? this.currentPage : null },
+        queryParamsHandling: 'merge'
+      });
       this.loadContacts();
     }
   }
@@ -68,6 +82,11 @@ export class ContactListComponent {
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { query: this.searchQuery || null, page: this.currentPage > 1 ? this.currentPage : null },
+        queryParamsHandling: 'merge'
+      });
       this.loadContacts();
     }
   }
