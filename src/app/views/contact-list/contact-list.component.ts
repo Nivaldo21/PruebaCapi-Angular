@@ -39,12 +39,12 @@ export class ContactListComponent {
     this.contactService.getContacts(this.currentPage,this.searchQuery)
       .pipe(
         catchError((error: any) => {
-            this.contacts = [];
-            this.totalPages = 0;
-            this.totalContacts = 0;
-            this.formContacts = 0;
-            this.toContacts = 0;
-            return of(null);
+          this.contacts = [];
+          this.totalPages = 0;
+          this.totalContacts = 0;
+          this.formContacts = 0;
+          this.toContacts = 0;
+          return of(null);
         })
       )
       .subscribe((response:any) => {
