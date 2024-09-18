@@ -27,4 +27,8 @@ export class ContactService {
   getContactDetails(contactId: number): Observable<ContactDetails>{
     return this.http.get<ContactDetails>(`${this.apiUrl}/${contactId}`);
   }
+
+  addContact(contact: Contact): Observable<Contact>{
+    return this.http.post<Contact>(this.apiUrl, contact);
+  }
 }

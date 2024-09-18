@@ -1,0 +1,64 @@
+<div class="container mx-auto mt-10">
+  <h1 class="text-4xl font-bold mb-6 text-blue-700">Add New Contact</h1>
+
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+    <div class="grid grid-cols-2 gap-8 ">
+      <div>
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+        <input type="text" formControlName="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John" required />
+      </div>
+      <div>
+        <label for="birthday" class="block mb-2  text-sm font-medium">Birthday</label>
+        <input id="birthday" formControlName="birthday" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+      </div>
+
+      <div>
+        <label for="company" class="block mb-2  text-sm font-medium">Company</label>
+        <input id="company" formControlName="company" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+      </div>
+
+      <div>
+        <label for="website" class="block mb-2  text-sm font-medium">Website</label>
+        <input id="website" formControlName="website" type="url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+      </div>
+      <div formArrayName="phones">
+        <div class="flex justify-between items-center">
+          <label class="block text-sm font-medium">Phones:</label>
+          <button type="button" class="bg-blue-400 text-white rounded-full px-6 py-1" (click)="addPhone()">Add Phone</button>
+        </div>
+        <div *ngFor="let phone of phones.controls; let i = index" [formGroupName]="i" class="space-x-6">
+          <input class="border p-1" formControlName="phone" placeholder="Phone number" />
+          <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="phones.removeAt(i)">Remove</button>
+        </div>
+      </div>
+      <div formArrayName="emails">
+        <div class="flex justify-between items-center">
+          <label class="block text-sm font-medium">Emails:</label>
+          <button type="button" class="bg-blue-400 text-white rounded-full px-6 py-1" (click)="addEmail()">Add Email</button>
+        </div>
+        <div *ngFor="let email of emails.controls; let i = index" [formGroupName]="i" class="space-x-6">
+          <input class="border p-1" formControlName="email" placeholder="Email" />
+          <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="emails.removeAt(i)">Remove</button>
+        </div>
+      </div>
+      <div formArrayName="addresses">
+        <div class="flex justify-between items-center">
+          <label class="block text-sm font-medium">Address:</label>
+          <button type="button" class="bg-blue-400 text-white rounded-full px-6 py-1" (click)="addAddress()">Add Address</button>
+        </div>
+        <div *ngFor="let address of addresses.controls; let i = index" [formGroupName]="i" class="space-x-6">
+          <input class="border p-1" formControlName="street" placeholder="street" />
+          <input class="border p-1" formControlName="city" placeholder="city" />
+          <input class="border p-1" formControlName="state" placeholder="state" />
+          <input class="border p-1" formControlName="zip" placeholder="zip" />
+          <input class="border p-1" formControlName="country" placeholder="country" />
+          <button type="button" class="bg-red-300 rounded-full px-2 py-1 text-white" (click)="addresses.removeAt(i)">Remove</button>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center my-10">
+      <button type="submit" class="text-xl bg-blue-600 text-white px-8 rounded-full py-2 disabled:bg-slate-300" [disabled]="!contactForm.valid">Save Contact</button>
+    </div>
+  </form>
+</div>

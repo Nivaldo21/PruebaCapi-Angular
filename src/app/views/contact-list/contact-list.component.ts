@@ -76,4 +76,8 @@ export class ContactListComponent {
     this.router.navigate(['/contacts', contactId]);
   }
 
+  newContact():void{
+    this.router.navigate(['/contacts/add']);
+  }
+
 }
