@@ -80,4 +80,10 @@ export class ContactListComponent {
     this.router.navigate(['/contacts/add']);
   }
 
+  delete(contactId:number):void{
+    this.contactService.deleteContact(contactId).subscribe(()=>{
+      this.contacts = this.contacts.filter(contact => contact.id !== contactId);
+    });
+  }
+
 }
